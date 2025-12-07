@@ -140,6 +140,7 @@ export default function MangaInfo() {
                 className="object-cover"
                 sizes="(max-width: 768px) 128px, 192px"
                 priority
+                unoptimized
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-[hsl(var(--muted-foreground))] text-xs">
