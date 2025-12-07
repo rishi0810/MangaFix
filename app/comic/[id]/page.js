@@ -134,7 +134,7 @@ export default function MangaInfo() {
           <div className="w-32 md:w-48 shrink-0 aspect-[2/3] bg-[hsl(var(--muted))] rounded-md shadow-lg overflow-hidden relative">
             {cover ? (
               <Image
-                src={cover}
+                src={`/api/proxy-cover?url=${encodeURIComponent(cover)}`}
                 alt={name}
                 fill
                 className="object-cover"
