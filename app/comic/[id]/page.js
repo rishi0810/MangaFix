@@ -2,8 +2,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
 import axios from "axios";
-
-import Link from "next/link";
 import Image from "next/image";
 
 export default function MangaInfo() {
@@ -118,9 +116,9 @@ export default function MangaInfo() {
       fetchData();
     }
 
-    return () => {
-      dataFetchedRef.current = null;
-    };
+    // return () => {
+    //   dataFetchedRef.current = null;
+    // };
   }, [id]);
 
   const handleRead = (chapterId) => {
@@ -134,13 +132,12 @@ export default function MangaInfo() {
           <div className="w-32 md:w-48 shrink-0 aspect-[2/3] bg-[hsl(var(--muted))] rounded-md shadow-lg overflow-hidden relative">
             {cover ? (
               <Image
-                src={`/api/proxy-cover?url=${encodeURIComponent(cover)}`}
+                src={cover}
                 alt={name}
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 128px, 192px"
                 priority
-                unoptimized
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-[hsl(var(--muted-foreground))] text-xs">
