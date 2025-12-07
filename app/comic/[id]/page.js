@@ -116,9 +116,6 @@ export default function MangaInfo() {
       fetchData();
     }
 
-    // return () => {
-    //   dataFetchedRef.current = null;
-    // };
   }, [id]);
 
   const handleRead = (chapterId) => {

@@ -9,34 +9,31 @@ export async function GET(request) {
       return new NextResponse("Missing image URL", { status: 400 });
     }
 
+    // Fetch the image from MangaPark with pseudo-browser headers
+    // Using standard capitalization as some WAFs are sensitive to this when coming from non-browser agents
     const response = await fetch(imageUrl, {
       headers: {
-        accept:
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-        "accept-language": "en-US,en;q=0.9",
-        "cache-control": "no-cache",
-        pragma: "no-cache",
-        priority: "u=0, i",
-        "sec-ch-ua": '"Chromium";v="143", "Not A(Brand";v="24"',
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": '"macOS"',
-        "sec-fetch-dest": "document",
-        "sec-fetch-mode": "navigate",
-        "sec-fetch-site": "none",
-        "sec-fetch-user": "?1",
-        "upgrade-insecure-requests": "1",
-        "user-agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
-      },
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Referer': 'https://mangapark.net/',
+        'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Sec-Ch-Ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+        'Sec-Ch-Ua-Mobile': '?0',
+        'Sec-Ch-Ua-Platform': '"macOS"',
+        'Sec-Fetch-Dest': 'document',
+        'Sec-Fetch-Mode': 'navigate',
+        'Sec-Fetch-Site': 'none',
+        'Sec-Fetch-User': '?1',
+        'Upgrade-Insecure-Requests': '1',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
+      }
     });
 
     if (!response.ok) {
-      console.error(
-        `Failed to fetch image: ${response.status} ${response.statusText}`,
-      );
-      return new NextResponse(`Failed to fetch image: ${response.status}`, {
-        status: response.status,
-      });
+      const errorText = await response.text();
+      console.error(`Proxy Fetch Error: ${response.status} ${response.statusText}`, errorText.slice(0, 200));
+      return new NextResponse(`Failed to fetch image: ${response.status}`, { status: response.status });
     }
 
     const imageBuffer = await response.arrayBuffer();
