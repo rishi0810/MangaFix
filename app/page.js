@@ -136,11 +136,12 @@ export default function Home() {
               >
                 <div className="aspect-[2/3] relative overflow-hidden rounded-sm shadow-md bg-[hsl(var(--muted))] transition-shadow duration-500 group-hover:shadow-2xl group-hover:shadow-[hsl(var(--primary))]/10">
                   <Image
-                    src={`https://mangapark.net${item.data.urlCover600}`}
+                    src={`/api/proxy-image?url=${encodeURIComponent(`https://mangapark.net${item.data.urlCover600}`)}`}
                     alt={item.data.name}
                     fill
                     sizes="(max-width: 768px) 50vw, 25vw"
                     className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                    unoptimized
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500"></div>
                 </div>
